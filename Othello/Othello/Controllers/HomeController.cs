@@ -3,18 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Othello.Models;
 
 namespace Othello.Controllers
 {
     public class HomeController : Controller
     {
-        //
-        // GET: /Home/
+        private DataContext data = new DataContext();
 
         public ActionResult Index()
         {
-            return View();
+            return View(data.TimeStamps.ToList());
         }
 
+        public ActionResult Remember()
+        {
+            data.TimeStamps.Add(new TimeStampRecord());
+            data.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

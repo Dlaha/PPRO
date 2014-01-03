@@ -1,5 +1,17 @@
-﻿@{
+﻿@model IEnumerable<Othello.Models.TimeStampRecord>
+
+
+@{
     ViewBag.Title = "Index";
 }
 
 <h1>Hello World</h1>
+<div>
+    @Html.ActionLink("Remember time", "Remember")
+    <ul>
+        @foreach (var item in Model)
+        {
+            <li>@Html.DisplayFor(modelItem => item.TimeStamp)</li>
+        }
+    </ul>
+</div>
