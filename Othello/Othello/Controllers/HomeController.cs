@@ -18,7 +18,13 @@ namespace Othello.Controllers
 
         public ActionResult Remember()
         {
-            data.TimeStamps.Add(new TimeStampRecord());
+            return Remember("NULL");
+        }
+
+        [HttpPost]
+        public ActionResult Remember(string name)
+        {
+            data.TimeStamps.Add(new UserRecord() { Name = name });
             data.SaveChanges();
             return RedirectToAction("Index");
         }

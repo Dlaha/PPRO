@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Othello.Models.TimeStampRecord>
+﻿@model IEnumerable<Othello.Models.UserRecord>
 
 
 @{
@@ -7,11 +7,16 @@
 
 <h1>Hello World</h1>
 <div>
+    @using (Html.BeginForm("Remember", "Home"))
+    {
+        <input type="text" id="name" name="name"/>
+        <input type="submit" id="submit"/>
+    }
     @Html.ActionLink("Remember time", "Remember")
     <ul>
         @foreach (var item in Model)
         {
-            <li>@Html.DisplayFor(modelItem => item.TimeStamp)</li>
+            <li>@Html.DisplayFor(modelItem => item.TimeStamp) - @Html.DisplayFor(modelItem => item.Name)</li>
         }
     </ul>
 </div>
