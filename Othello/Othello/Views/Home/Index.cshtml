@@ -1,22 +1,32 @@
-﻿@model IEnumerable<Othello.Models.UserRecord>
-
+﻿@model Othello.Models.Player
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Othello";
 }
 
-<h1>Hello World</h1>
-<div>
-    @using (Html.BeginForm("Remember", "Home"))
-    {
-        <input type="text" id="name" name="name"/>
-        <input type="submit" id="submit"/>
-    }
-    @Html.ActionLink("Remember time", "Remember")
-    <ul>
-        @foreach (var item in Model)
-        {
-            <li>@Html.DisplayFor(modelItem => item.TimeStamp) - @Html.DisplayFor(modelItem => item.Name)</li>
-        }
-    </ul>
-</div>
+<h2>Othello</h2>
+
+@using (Html.BeginForm("StartGame","Home")) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Player</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+            @Html.ValidationMessageFor(model => model.Name,"Nickname is mandatory")
+        </div>
+
+        <p>
+            <input type="submit" value="Start" />
+        </p>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

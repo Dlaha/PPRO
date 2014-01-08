@@ -9,7 +9,7 @@ namespace Othello.Models
 {
     public class DataContext:DbContext
     {
-        public DbSet<UserRecord> TimeStamps { get; set; }
+        public DbSet<Player> Players { get; set; }
 
     }
 }

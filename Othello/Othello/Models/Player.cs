@@ -6,15 +6,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Othello.Models
 {
-    public class UserRecord
+    public class Player
     {
         [Key] // primary key
         public int Id { get; set; }
         [Required] // not null
         public DateTime TimeStamp { get; set; }
+        [Required] // not null
         public string Name { get; set; }
 
-        public UserRecord()
+        public Player()
         {
             TimeStamp = DateTime.Now;
         }

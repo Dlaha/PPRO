@@ -13,20 +13,16 @@ namespace Othello.Controllers
 
         public ActionResult Index()
         {
-            return View(data.TimeStamps.ToList());
-        }
-
-        public ActionResult Remember()
-        {
-            return Remember("NULL");
+            return View();
         }
 
         [HttpPost]
-        public ActionResult Remember(string name)
+        public ActionResult StartGame(Player newPlayer)
         {
-            data.TimeStamps.Add(new UserRecord() { Name = name });
+            data.Players.Add(newPlayer);
             data.SaveChanges();
-            return RedirectToAction("Index");
+            return View("WaitForPlaymate", newPlayer);
+            //return RedirectToAction("WaitForPlaymate",newPlayer);
         }
     }
 }
