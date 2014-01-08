@@ -7,7 +7,7 @@ using Othello.Models;
 
 namespace Othello.Controllers
 {
-    public class HomeController : Controller
+    public class DebugController : Controller
     {
         private DataContext data = new DataContext();
 
@@ -16,12 +16,10 @@ namespace Othello.Controllers
             return View();
         }
 
-        [HttpPost]
-        public ActionResult StartGame(Player newPlayer)
+        public ActionResult Players()
         {
-            data.Players.Add(newPlayer);
-            data.SaveChanges();
-            return View("WaitForPlaymate", newPlayer);
+            return View(data.Players.ToList());
         }
+
     }
 }

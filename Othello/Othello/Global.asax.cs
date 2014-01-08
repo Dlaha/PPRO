@@ -19,7 +19,7 @@ namespace Othello
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DataContext>());
+            Database.SetInitializer(new DropCreateDatabaseAlways<DataContext>());
             WebApiConfig.Register(GlobalConfiguration.Configuration);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
