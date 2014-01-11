@@ -11,14 +11,6 @@ namespace Othello.Controllers
     {
         private static DataContext data = new DataContext();
 
-        //private static int t = 0;
-
-        //public HomeController()
-        //    : base()
-        //{
-        //    t++;
-        //}
-
         public ActionResult Index()
         {
             return View();

@@ -12,6 +12,7 @@
     <br />
     <b>Last update:</b> @Html.ValueFor(model => model.LastUpdate)
 
-    <br />
+    <br /><br />
     @Html.ActionLink("Check", "CheckForPlaymate", Model)
+    <p style="font-style:italic">Tady tuhle akci bude potřeba volat periodicky. Třeba co 2s. A nejlíp jako POST namísto GET.</p>
 </div>
