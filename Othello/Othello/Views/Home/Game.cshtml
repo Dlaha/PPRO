@@ -1,0 +1,39 @@
+﻿@model Othello.Models.Player
+
+@{
+    ViewBag.Title = "Game";
+}
+
+<h2>Game</h2>
+
+<fieldset>
+    <legend>Player</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.WaitStartTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.WaitStartTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.LastUpdate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastUpdate)
+    </div>
+
+    <div class="display-label">
+        @Html.DisplayNameFor(model => model.State)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.State)
+    </div>
+</fieldset>

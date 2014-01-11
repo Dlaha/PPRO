@@ -228,6 +228,7 @@
     <Content Include="Views\Home\WaitForPlaymate.cshtml" />
     <Content Include="Views\Debug\Index.cshtml" />
     <Content Include="Views\Debug\Players.cshtml" />
+    <Content Include="Views\Home\Game.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

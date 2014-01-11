@@ -4,7 +4,14 @@
     ViewBag.Title = "Waiting...";
 }
 
+<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+
 <h2>Waiting for a playmate</h2>
 <div>
     <b>Name:</b> @Html.ValueFor(model => model.Name)
+    <br />
+    <b>Last update:</b> @Html.ValueFor(model => model.LastUpdate)
+
+    <br />
+    @Html.ActionLink("Check", "CheckForPlaymate", Model)
 </div>
