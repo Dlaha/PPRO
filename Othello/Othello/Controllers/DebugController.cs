@@ -18,7 +18,14 @@ namespace Othello.Controllers
 
         public ActionResult Players()
         {
-            return View(data.Players.ToList());
+            List<Player> players = data.Players.ToList();
+            return View(players);
+        }
+
+        public ActionResult GameStates()
+        {
+            List<GameState> gs = data.FetchPlayers(data.GameStates.ToList());      
+            return View(gs);
         }
 
     }

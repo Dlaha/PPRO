@@ -1,4 +1,4 @@
-﻿@model Othello.Models.Player
+﻿@model Othello.Models.GameState
 
 @{
     ViewBag.Title = "Game";
@@ -7,33 +7,8 @@
 <h2>Game</h2>
 
 <fieldset>
-    <legend>Player</legend>
+    <legend>Fight!</legend>
+    <p>@Html.DisplayFor(model => model.BlackPlayer.Name) vs. @Html.DisplayFor(model => model.WhitePlayer.Name)</p>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.WaitStartTime)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.WaitStartTime)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.LastUpdate)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.LastUpdate)
-    </div>
-
-    <div class="display-label">
-        @Html.DisplayNameFor(model => model.State)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.State)
-    </div>
+    <p>Tak a tady bude potřeba nějaké zobrazení herního plánku. A pak zase periodické volání nějaké akce, pro kontrolu toho, že se hráč neodpojil.</p>
 </fieldset>

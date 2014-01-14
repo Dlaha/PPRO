@@ -135,6 +135,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\GameState.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -229,6 +230,7 @@
     <Content Include="Views\Debug\Index.cshtml" />
     <Content Include="Views\Debug\Players.cshtml" />
     <Content Include="Views\Home\Game.cshtml" />
+    <Content Include="Views\Debug\GameStates.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

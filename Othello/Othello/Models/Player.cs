@@ -31,5 +31,10 @@ namespace Othello.Models
             WaitStartTime = DateTime.UtcNow;
             LastUpdate = WaitStartTime;
         }
+
+        public override string ToString()
+        {
+            return string.Format("{0}:{1}",Id,Name);
+        }
     }
 }
