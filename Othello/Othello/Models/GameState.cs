@@ -57,7 +57,7 @@ namespace Othello.Models
             for (int x = 0; x < boardDimension; x++)
                 for (int y = 0; y < boardDimension; y++)
                     Board[x, y] = FieldColor.Empty;
-            // game start
+            // game default state
             Board[3, 3] = FieldColor.White; Board[4, 3] = FieldColor.Black;
             Board[3, 4] = FieldColor.Black; Board[4, 4] = FieldColor.White;
         }

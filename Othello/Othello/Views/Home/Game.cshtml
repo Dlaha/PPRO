@@ -10,5 +10,31 @@
     <legend>Fight!</legend>
     <p>@Html.DisplayFor(model => model.BlackPlayer.Name) vs. @Html.DisplayFor(model => model.WhitePlayer.Name)</p>
 
-    <p>Tak a tady bude potřeba nějaké zobrazení herního plánku. A pak zase periodické volání nějaké akce, pro kontrolu toho, že se hráč neodpojil.</p>
+    <table >
+
+        @for (int x = 0; x < 8; x++)
+        {
+            <tr>
+            @for (int y = 0; y < 8; y++)
+{
+    <td style="border: 1px solid black; width: 20px; height:20px; text-align: center">
+
+        @switch (Model.Board[x, y])
+        {
+            case Othello.Models.FieldColor.Empty:
+                <text> </text>break;
+            case Othello.Models.FieldColor.Black:
+            <text>B</text> break;
+            case Othello.Models.FieldColor.White:
+            <text>W</text>break;
+        }
+    </td>
+}
+             </tr>   
+         }
+       
+        
+    </table>
+
+    <p>Tak a tady je úžasné dočasné zobrazení herního plánku. Musí se doplnit odkazy a posílání tahů. A pak zase periodické volání nějaké akce, pro kontrolu toho, že se hráč neodpojil.</p>
 </fieldset>
