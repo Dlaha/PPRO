@@ -7,15 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Othello.Models
 {
-    public enum FieldColor
-    {
-        Empty, Black, White
-    }
 
     public class GameState
     {
-
-        private const int boardDimension = 8;
 
         [Key]
         public int Id { get; set; }
@@ -53,13 +47,15 @@ namespace Othello.Models
             Invalid = false;
             TimeStamp = DateTime.UtcNow;
             // default board
-            Board = new FieldColor[boardDimension, boardDimension];
-            for (int x = 0; x < boardDimension; x++)
-                for (int y = 0; y < boardDimension; y++)
+            Board = new FieldColor[Judge.boardDimension, Judge.boardDimension];
+            for (int x = 0; x < Judge.boardDimension; x++)
+                for (int y = 0; y < Judge.boardDimension; y++)
                     Board[x, y] = FieldColor.Empty;
             // game default state
             Board[3, 3] = FieldColor.White; Board[4, 3] = FieldColor.Black;
             Board[3, 4] = FieldColor.Black; Board[4, 4] = FieldColor.White;
+
+            Judge.PossibleMoves(Board,FieldColor.White);
         }
 
         public GameState(Player whitePlayer, Player blackPlayer):this()
