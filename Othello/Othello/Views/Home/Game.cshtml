@@ -8,7 +8,8 @@
 
 <fieldset>
     <legend>Fight!</legend>
-    <p>@Html.DisplayFor(model => model.BlackPlayer.Name) vs. @Html.DisplayFor(model => model.WhitePlayer.Name)</p>
+    <p>@Html.DisplayFor(model => model.BlackPlayer.Name) (Black) vs. @Html.DisplayFor(model => model.WhitePlayer.Name) (White)</p>
+    <p>Aktivní hráč: @Html.DisplayFor(model => model.ActivePlayerInstance.Name)</p>
 
     <table >
 
@@ -22,7 +23,15 @@
         @switch (Model.Board[x, y])
         {
             case Othello.Models.FieldColor.Empty:
-                <text> </text>break;
+                if (Model.ValidMove(x,y))
+                {
+                    <text>@Html.ActionLink("tah", "GameTurn", new { idG=Model.Id, idP = Model.ActivePlayerInstance.Id, x = x, y = y })</text>
+                }
+                else
+                {
+                    <text></text>
+                }
+                break;
             case Othello.Models.FieldColor.Black:
                 <text>B</text> break;
             case Othello.Models.FieldColor.White:

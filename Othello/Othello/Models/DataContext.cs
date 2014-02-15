@@ -26,17 +26,18 @@ namespace Othello.Models
             base.OnModelCreating(modelBuilder);
         }
 
-        public GameState FetchPlayers(GameState gamestate)
+        public GameState FetchAdditional(GameState gamestate)
         {
             gamestate.BlackPlayer = Players.Find(gamestate.idBlackPlayer);
             gamestate.WhitePlayer = Players.Find(gamestate.idWhitePlayer);
+            //gamestate.Previous = GameStates.Find(gamestate.idPrevious);
             return gamestate;
         }
 
         public T FetchPlayers<T>(T gamestates) where T : IEnumerable<GameState>
         {
             foreach (GameState item in gamestates)
-                FetchPlayers(item);
+                FetchAdditional(item);
             return gamestates;
         }
     }

@@ -7,20 +7,76 @@ namespace Othello.Models
 {
     public struct Point{
         public int x,y;
+
+        public static Point operator +(Point P1, Point P2)
+        {
+            Point result;
+            result.x = P1.x + P2.x;
+            result.y = P1.y + P2.y;
+            return result;
+        }
+
+        public static Point operator -(Point P1, Point P2)
+        {
+            Point result;
+            result.x = P1.x - P2.x;
+            result.y = P1.y - P2.y;
+            return result;
+        }
     }
 
     public enum FieldColor
     {
-        Empty, Black, White
+        Empty = 0, Black = 1, White = 2
     }
     
     public static class Judge
     {
         public const int boardDimension = 8;
 
-        static private bool ValidDirection(FieldColor[,] board, FieldColor activePlayer, Point startPos, Point direction)
+        static private int ObtainStonesInDirection(ref FieldColor[,] board, FieldColor activePlayer, Point startPos, Point direction)
         {
-            return false;
+            if (direction.x < -1 || direction.x > 1 || direction.y < -1 || direction.y > 1)
+                throw new Exception(string.Format("Judge.ValidDirection error - wrong direction (x = {1}, y = {2})", direction.x, direction.y));
+            if (board[startPos.x, startPos.y] != FieldColor.Empty) return 0;
+            FieldColor oposingPlayer = (activePlayer==FieldColor.Black) ? FieldColor.White : FieldColor.Black;
+            int r = 0;
+            while (true)
+            {
+                startPos += direction;
+                if (startPos.x < 0 || startPos.x > boardDimension - 1 || startPos.y < 0 || startPos.y > boardDimension - 1) return 0;
+                if (board[startPos.x, startPos.y] == FieldColor.Empty) return 0;
+                if (board[startPos.x, startPos.y] == oposingPlayer) r++;
+                if (board[startPos.x, startPos.y] == activePlayer) break;
+            }
+            // do move
+            for (int i = r; i > 0; i--)
+            {
+                startPos -= direction;
+                board[startPos.x, startPos.y] = activePlayer;
+            }
+            return r;
+        }
+
+        static public bool DoMove(ref FieldColor[,] board, FieldColor activePlayer, Point pos)
+        {
+            if (board[pos.x, pos.y] != FieldColor.Empty) throw new Exception("Judge.DoMove - Bad start position");
+            bool r = false;
+            for (int i = 0; i < 9; i++)
+            {
+                Point d; // direction
+                d.x = ((i / 3) % 3) - 1;
+                d.y = (i % 3) - 1;
+                r = r || ObtainStonesInDirection(ref board, activePlayer, pos, d)>0;
+            }
+            return r;
+        }
+
+        static public bool IsMovePossible(FieldColor[,] board, FieldColor activePlayer, Point pos)
+        {
+
+            FieldColor[,] temp = board.Clone() as FieldColor[,];
+            return DoMove(ref temp,activePlayer,pos);
         }
 
         static public List<Point> PossibleMoves(FieldColor[,] board, FieldColor activePlayer)
@@ -30,18 +86,8 @@ namespace Othello.Models
                 for (int y = 0; y < boardDimension; y++)
                 {
                     Point p; p.x = x; p.y = y;
-                    if (board[p.x,p.y]!=FieldColor.Empty || res.Contains(p)) continue;
-                    for (int i = 0; i < 9; i++)
-                    {
-                        Point d;
-                        d.x = ((i/3) % 3) - 1;
-                        d.y = (i % 3) - 1;
-                        if (ValidDirection(board, activePlayer, p, d))
-                        {
-                            res.Add(p);
-                            break;
-                        }
-                    }
+                    if (!res.Contains(p) && IsMovePossible(board,activePlayer,p)) 
+                        res.Add(p);
                 }
             return res;
         }

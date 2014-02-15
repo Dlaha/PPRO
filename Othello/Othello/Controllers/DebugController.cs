@@ -9,7 +9,6 @@ namespace Othello.Controllers
 {
     public class DebugController : Controller
     {
-        private DataContext data = new DataContext();
 
         public ActionResult Index()
         {
@@ -18,13 +17,21 @@ namespace Othello.Controllers
 
         public ActionResult Players()
         {
-            List<Player> players = data.Players.ToList();
+            List<Player> players;
+            using (DataContext data = new DataContext())
+            {
+                players = data.Players.ToList();
+            }
             return View(players);
         }
 
         public ActionResult GameStates()
         {
-            List<GameState> gs = data.FetchPlayers(data.GameStates.ToList());      
+            List<GameState> gs;
+            using (DataContext data = new DataContext())
+            {
+                gs = data.FetchPlayers(data.GameStates.ToList());
+            }
             return View(gs);
         }
 
