@@ -26,22 +26,19 @@ namespace Othello.Controllers
             }
         }
 
-        private Player findPlaymate(Player actPlayer)
+        private Player findPlaymate(Player actPlayer, DataContext data)
         {
             Player result = null;
-            using (DataContext data = new DataContext())
-            {
-                IQueryable<Player> players = data.Players.Where(p => p.State == PlayerState.Waiting && p.Id != actPlayer.Id).OrderBy(p => p.WaitStartTime);
-                DateTime stamp = DateTime.UtcNow;
-                bool ch = false; // detect change
-                foreach (Player p in players)
-                    if ((stamp - p.LastUpdate).TotalSeconds > 10) // timeout players
-                    {
-                        p.State = PlayerState.Disconnected; ch = true;
-                    }
-                    else result = p; // select longest waiting playmate
-                if (ch) data.SaveChanges();
-            }
+            IQueryable<Player> players = data.Players.Where(p => p.State == PlayerState.Waiting && p.Id != actPlayer.Id).OrderBy(p => p.WaitStartTime);
+            DateTime stamp = DateTime.UtcNow;
+            bool ch = false; // detect change
+            foreach (Player p in players)
+                if ((stamp - p.LastUpdate).TotalSeconds > 10) // timeout players
+                {
+                    p.State = PlayerState.Disconnected; ch = true;
+                }
+                else result = p; // select longest waiting playmate
+            if (ch) data.SaveChanges();
             return result;
         }
 
@@ -49,7 +46,7 @@ namespace Othello.Controllers
         {
             GameState gameState;
             using (DataContext data = new DataContext())
-            {  
+            {
                 gameState = data.FetchAdditional(data.GameStates.Find(idGame));
             }
             return View(gameState);
@@ -90,7 +87,7 @@ namespace Othello.Controllers
                 player.LastUpdate = DateTime.UtcNow;
 
                 // find playmate
-                Player playmate = findPlaymate(player);
+                Player playmate = findPlaymate(player,data);
                 if (playmate != null)
                 {
                     player.State = PlayerState.Playing;

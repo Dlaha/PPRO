@@ -21,7 +21,7 @@ namespace Othello.Models
         //[ForeignKey("Previous")]
         //public int idPrevious { get; set; }
         //[ForeignKey("idPrevious")]
-
+        //[ForeignKey("idPrevious")]
         public virtual GameState Previous { get; set; }
 
         #endregion
