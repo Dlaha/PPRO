@@ -26,22 +26,6 @@ namespace Othello.Controllers
             }
         }
 
-        private Player findPlaymate(Player actPlayer, DataContext data)
-        {
-            Player result = null;
-            IQueryable<Player> players = data.Players.Where(p => p.State == PlayerState.Waiting && p.Id != actPlayer.Id).OrderBy(p => p.WaitStartTime);
-            DateTime stamp = DateTime.UtcNow;
-            bool ch = false; // detect change
-            foreach (Player p in players)
-                if ((stamp - p.LastUpdate).TotalSeconds > 10) // timeout players
-                {
-                    p.State = PlayerState.Disconnected; ch = true;
-                }
-                else result = p; // select longest waiting playmate
-            if (ch) data.SaveChanges();
-            return result;
-        }
-
         public ActionResult Game(int idGame)
         {
             GameState gameState;
@@ -87,7 +71,7 @@ namespace Othello.Controllers
                 player.LastUpdate = DateTime.UtcNow;
 
                 // find playmate
-                Player playmate = findPlaymate(player,data);
+                Player playmate = data.FindPlaymate(player);
                 if (playmate != null)
                 {
                     player.State = PlayerState.Playing;

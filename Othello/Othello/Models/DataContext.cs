@@ -40,5 +40,21 @@ namespace Othello.Models
                 FetchAdditional(item);
             return gamestates;
         }
+
+        public Player FindPlaymate(Player actPlayer)
+        {
+            Player result = null;
+            IQueryable<Player> players = Players.Where(p => p.State == PlayerState.Waiting && p.Id != actPlayer.Id).OrderBy(p => p.WaitStartTime);
+            DateTime stamp = DateTime.UtcNow;
+            bool ch = false; // detect change
+            foreach (Player p in players)
+                if ((stamp - p.LastUpdate).TotalSeconds > 10) // timeout players
+                {
+                    p.State = PlayerState.Disconnected; ch = true;
+                }
+                else result = p; // select longest waiting playmate
+            if (ch) SaveChanges();
+            return result;
+        }
     }
 }
