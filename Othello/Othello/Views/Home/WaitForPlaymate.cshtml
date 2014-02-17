@@ -4,15 +4,34 @@
     ViewBag.Title = "Waiting...";
 }
 
-<script src="@Url.Content("~/Scripts/jquery.unobtrusive-ajax.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    var autoRefresh = true;
+    (function worker() {
+        $.ajax({
+            url: 'checkPlayer',
+            data: { idPlayer: @Html.ValueFor(model => model.Id) },
+            type: 'GET',
+            success: function (data) {
+                if (data.IsPlaying)
+                    window.location='@Url.Action("CheckForPlaymate", new { idPlayer = Model.Id })';
+                else if (data.IsDisconnected){
+                    $('#WaitingTime').text("Error: timeout");
+                    autoRefresh=false;
+                }else
+                    $('#WaitingTime').text(data.WaitingTime);
+            },
+            complete: function(){
+                if (autoRefresh) setTimeout(worker,2000);
+            }
+        })
+    })();
+</script>
 
-<h2>Waiting for a playmate</h2>
+<h2>Waiting for playmate</h2>
 <div>
     <b>Name:</b> @Html.ValueFor(model => model.Name)
-    <br />
-    <b>Last update:</b> @Html.ValueFor(model => model.LastUpdate)
-
     <br /><br />
-    @Html.ActionLink("Check", "CheckForPlaymate", new { idPlayer = Model.Id })
-    <p style="font-style:italic">Tady tuhle akci bude potřeba volat periodicky. Třeba co 2s.</p>
+    <b>Duration:</b> <div id="WaitingTime" style="font: bold 16px verdana"></div>
 </div>

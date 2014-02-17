@@ -48,11 +48,26 @@ namespace Othello.Controllers
             return RedirectToAction("Game", new { idGame = idG });
         }
 
+        public JsonResult checkPlayer(int idPlayer)
+        {
+            using (DataContext data = new DataContext())
+            {
+                Player p = data.Players.Find(idPlayer);
+                if (p != null && !p.IsDisconnected)
+                {
+                    p.LastUpdate = DateTime.UtcNow;
+                    data.SaveChanges();
+                }
+                return Json(p, JsonRequestBehavior.AllowGet);
+            }
+        }
+
         public ActionResult CheckForPlaymate(int idPlayer)
         {
             using (DataContext data = new DataContext())
             {
                 Player player = data.Players.Find(idPlayer); // refresh
+                if (player == null) throw new Exception(string.Format("Player with id {0} doesn't exists",idPlayer));
                 // check if this player wasn't already selected as playmate
                 if (player.State == PlayerState.Playing)
                 {
