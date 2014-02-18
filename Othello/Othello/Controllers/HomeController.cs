@@ -10,6 +10,8 @@ namespace Othello.Controllers
     public class HomeController : Controller
     {
 
+        #region Game start
+
         public ActionResult Index()
         {
             return View();
@@ -26,7 +28,11 @@ namespace Othello.Controllers
             }
         }
 
-        public ActionResult Game(int idGame)
+        #endregion
+
+        #region Game
+
+        public ActionResult Game(int idGame, int idPlayer)
         {
             GameState gameState;
             using (DataContext data = new DataContext())
@@ -47,6 +53,10 @@ namespace Othello.Controllers
             }
             return RedirectToAction("Game", new { idGame = idG });
         }
+
+        #endregion
+
+        #region Waiting for playmate
 
         public JsonResult checkPlayer(int idPlayer)
         {
@@ -80,7 +90,7 @@ namespace Othello.Controllers
                     }
                     if (valid == null) throw new Exception(string.Format("Game is missing for player (id={0), nick={1}", player.Id, player.Name));
                     data.SaveChanges();
-                    return RedirectToAction("Game", new { idGame = valid.Id });
+                    return RedirectToAction("Game", new { idGame = valid.Id, idPlayer = player.Id });
                 }
 
                 player.LastUpdate = DateTime.UtcNow;
@@ -95,11 +105,14 @@ namespace Othello.Controllers
                     GameState gs = new GameState(player, playmate);
                     data.GameStates.Add(gs);
                     data.SaveChanges();
-                    return RedirectToAction("Game", new { idGame = gs.Id });
+                    return RedirectToAction("Game", new { idGame = gs.Id, idPlayer = player.Id });
                 }
                 else // playmate wasn't found - wait for it
                     return View("WaitForPlaymate", player);
             }
         }
+
+        #endregion
+
     }
 }
