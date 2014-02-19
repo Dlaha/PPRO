@@ -14,12 +14,16 @@ namespace Othello.Models
         public GameState GameState { get; private set; }
         public Player Player { get; private set; }
 
-        public bool ImPlaying { get { return GameState.ActivePlayerInstance == Player; } }
+        public bool MyTurn { get { return GameState.ActivePlayerInstance == Player; } }
+
+        public Player Opponent { get { return (GameState.BlackPlayer == Player ? GameState.WhitePlayer : GameState.BlackPlayer); } }
 
         public PlayerGame(Player player, GameState gameState)
         {
             this.GameState = gameState;
             this.Player = player;
+            if (GameState.WhitePlayer != Player && GameState.BlackPlayer != Player)
+                throw new Exception(this.ToString()+"Player doesn't play the game");
         }
 
     }

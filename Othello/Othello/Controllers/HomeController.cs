@@ -40,12 +40,33 @@ namespace Othello.Controllers
             {
                 gameState = data.FetchAdditional(data.GameStates.Find(idGame));
                 if (gameState == null)
-                    throw new Exception(string.Format("Game with id {0} doesn't exists",idGame));
+                    throw new Exception(string.Format("Game - Game with id {0} doesn't exists", idGame));
                 if (gameState.BlackPlayer.Id != idPlayer && gameState.WhitePlayer.Id != idPlayer)
-                    throw new Exception(string.Format("Player with id {0} doesn't play game {1}",idPlayer,idGame));
+                    throw new Exception(string.Format("Game - GamePlayer with id {0} doesn't play game {1}", idPlayer, idGame));
                 pg = new PlayerGame((idPlayer == gameState.BlackPlayer.Id ? gameState.BlackPlayer : gameState.WhitePlayer), gameState);
             }
             return View(pg);
+        }
+
+        public JsonResult checkGame(int idGame, int idPlayer)
+        {
+            using (DataContext data = new DataContext())
+            {
+                GameState gs = data.FetchAdditional(data.GameStates.Find(idGame));
+                if (gs == null) throw new Exception(string.Format("checkGame - Game with id {0} doesn't exists", idGame));
+                Player p = gs.PlayerByID(idPlayer);
+                if (p==null) throw new Exception(string.Format("checkGame - Player with id {0} doesn't play game {1}", idPlayer, idGame));
+                p.LastUpdate = DateTime.UtcNow; p.State = PlayerState.Playing;
+                gs.WhitePlayer.CheckTimeout();
+                gs.BlackPlayer.CheckTimeout();
+                data.SaveChanges();
+                Player o = (gs.WhitePlayer.Id == idPlayer ? gs.BlackPlayer : gs.WhitePlayer ); // oponent
+                // result
+                return Json(new { 
+                    ImPlaying = gs.ActivePlayerInstance.Id==idPlayer , 
+                    OpponentTimeout = o.State==PlayerState.Disconnected
+                }, JsonRequestBehavior.AllowGet);
+            }  
         }
 
         public ActionResult GameTurn(int idG, int idP, int x, int y)

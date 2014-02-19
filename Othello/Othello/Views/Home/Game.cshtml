@@ -4,17 +4,38 @@
     ViewBag.Title = "Game";
 }
 
+<script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    (function worker() {
+        $.ajax({
+            url: 'checkGame',
+            data: { idGame: @Html.ValueFor(model => model.GameState.Id) , idPlayer: @Html.ValueFor(model => model.Player.Id) },
+            type: 'GET',
+            success: function (data) {
+                if (@if(!Model.Opponent.IsPlaying){<text>!data.OpponentTimeout</text>}else{<text>data.OpponentTimeout</text>} @if(!Model.MyTurn){<text> || data.ImPlaying</text>})
+                    window.location=window.location;
+            },
+            complete: function(){
+                setTimeout(worker,2000);
+            }
+        })
+    })();
+</script>
 <h2>Game</h2>
 
 <fieldset>
     <legend>Fight!</legend>
     <p>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name) (Black) vs. @Html.DisplayFor(model => model.GameState.WhitePlayer.Name) (White)</p>
-    <p>@{ if (Model.ImPlaying){ 
-              <text><b>Jsi na tahu</b></text> 
-        } else { 
-              <text>Protivník je na tahu</text>
-        } } 
-    </p>
+    @{ 
+        if (Model.Opponent.State != Othello.Models.PlayerState.Playing) { <text><p style="color: red">Čeká se na protihráče</p></text> }
+        else { 
+            if (Model.MyTurn)
+            {<text><p style="font-weight:bold">Jsi na tahu</p></text>}
+            else
+            {<text><p>Protivník je na tahu</p></text>}
+        }
+}
 
     <table >
 
@@ -28,7 +49,7 @@
         @switch (Model.GameState.Board[x, y])
         {
             case Othello.Models.FieldColor.Empty:
-                if (Model.ImPlaying && Model.GameState.ValidMove(x,y))
+                if (Model.Opponent.IsPlaying && Model.MyTurn && Model.GameState.ValidMove(x,y))
                 {
                     <text>@Html.ActionLink("tah", "GameTurn", new { idG = Model.GameState.Id, idP = Model.Player.Id, x = x, y = y })</text>
                 }

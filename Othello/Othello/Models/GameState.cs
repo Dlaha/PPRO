@@ -100,6 +100,13 @@ namespace Othello.Models
             this.BlackPlayer = blackPlayer;
         }
 
+        public Player PlayerByID(int idPlayer)
+        {
+            if (WhitePlayer.Id == idPlayer) return WhitePlayer;
+            else if (BlackPlayer.Id == idPlayer) return BlackPlayer;
+            else return null;
+        }
+
         public bool ValidMove(int x, int y)
         {
             Point p; p.x=x; p.y=y;
