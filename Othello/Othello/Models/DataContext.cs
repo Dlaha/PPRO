@@ -28,6 +28,7 @@ namespace Othello.Models
 
         public GameState FetchAdditional(GameState gamestate)
         {
+            if (gamestate == null) return null;
             gamestate.BlackPlayer = Players.Find(gamestate.idBlackPlayer);
             gamestate.WhitePlayer = Players.Find(gamestate.idWhitePlayer);
             //gamestate.Previous = GameStates.Find(gamestate.idPrevious);

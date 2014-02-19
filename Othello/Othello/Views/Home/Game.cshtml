@@ -1,4 +1,4 @@
-﻿@model Othello.Models.GameState
+﻿@model Othello.Models.PlayerGame
 
 @{
     ViewBag.Title = "Game";
@@ -8,8 +8,13 @@
 
 <fieldset>
     <legend>Fight!</legend>
-    <p>@Html.DisplayFor(model => model.BlackPlayer.Name) (Black) vs. @Html.DisplayFor(model => model.WhitePlayer.Name) (White)</p>
-    <p>Aktivní hráč: @Html.DisplayFor(model => model.ActivePlayerInstance.Name)</p>
+    <p>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name) (Black) vs. @Html.DisplayFor(model => model.GameState.WhitePlayer.Name) (White)</p>
+    <p>@{ if (Model.ImPlaying){ 
+              <text><b>Jsi na tahu</b></text> 
+        } else { 
+              <text>Protivník je na tahu</text>
+        } } 
+    </p>
 
     <table >
 
@@ -20,12 +25,12 @@
 {
     <td style="border: 1px solid black; width: 20px; height:20px; text-align: center">
 
-        @switch (Model.Board[x, y])
+        @switch (Model.GameState.Board[x, y])
         {
             case Othello.Models.FieldColor.Empty:
-                if (Model.ValidMove(x,y))
+                if (Model.ImPlaying && Model.GameState.ValidMove(x,y))
                 {
-                    <text>@Html.ActionLink("tah", "GameTurn", new { idG=Model.Id, idP = Model.ActivePlayerInstance.Id, x = x, y = y })</text>
+                    <text>@Html.ActionLink("tah", "GameTurn", new { idG = Model.GameState.Id, idP = Model.Player.Id, x = x, y = y })</text>
                 }
                 else
                 {

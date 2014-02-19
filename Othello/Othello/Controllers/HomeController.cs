@@ -34,12 +34,18 @@ namespace Othello.Controllers
 
         public ActionResult Game(int idGame, int idPlayer)
         {
+            PlayerGame pg;
             GameState gameState;
             using (DataContext data = new DataContext())
             {
                 gameState = data.FetchAdditional(data.GameStates.Find(idGame));
+                if (gameState == null)
+                    throw new Exception(string.Format("Game with id {0} doesn't exists",idGame));
+                if (gameState.BlackPlayer.Id != idPlayer && gameState.WhitePlayer.Id != idPlayer)
+                    throw new Exception(string.Format("Player with id {0} doesn't play game {1}",idPlayer,idGame));
+                pg = new PlayerGame((idPlayer == gameState.BlackPlayer.Id ? gameState.BlackPlayer : gameState.WhitePlayer), gameState);
             }
-            return View(gameState);
+            return View(pg);
         }
 
         public ActionResult GameTurn(int idG, int idP, int x, int y)
@@ -47,11 +53,12 @@ namespace Othello.Controllers
             using (DataContext data = new DataContext())
             {
                 GameState gameState = data.FetchAdditional(data.GameStates.Find(idG));
+                if (gameState == null) throw new Exception(string.Format("Game with id {0} doesn't exists", idG));
                 if (gameState.ActivePlayerInstance.Id != idP) throw new Exception("GameTurn - Wrong player ID");
                 gameState.NextTurn(x, y);
                 data.SaveChanges();
             }
-            return RedirectToAction("Game", new { idGame = idG });
+            return RedirectToAction("Game", new { idGame = idG, idPlayer = idP });
         }
 
         #endregion
