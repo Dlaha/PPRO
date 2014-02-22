@@ -54,5 +54,16 @@ namespace Othello.Models
             SaveChanges();
             return result;
         }
+
+        public PlayerGame ConstructPlayerGame(int idGame, int idPlayer)
+        {
+            GameState gameState;
+            gameState = FetchAdditional(GameStates.Find(idGame));
+            if (gameState == null)
+                throw new Exception(string.Format("ConstructPlayerGame - Game with id {0} doesn't exists", idGame));
+            if (gameState.BlackPlayer.Id != idPlayer && gameState.WhitePlayer.Id != idPlayer)
+                throw new Exception(string.Format("ConstructPlayerGame - GamePlayer with id {0} doesn't play game {1}", idPlayer, idGame));
+            return new PlayerGame((idPlayer == gameState.BlackPlayer.Id ? gameState.BlackPlayer : gameState.WhitePlayer), gameState);
+        }
     }
 }

@@ -76,7 +76,15 @@ namespace Othello.Models
         {
 
             FieldColor[,] temp = board.Clone() as FieldColor[,];
-            return DoMove(ref temp,activePlayer,pos);
+            try
+            {
+                return DoMove(ref temp, activePlayer, pos);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            
         }
 
         static public List<Point> PossibleMoves(FieldColor[,] board, FieldColor activePlayer)

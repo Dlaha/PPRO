@@ -78,6 +78,15 @@ namespace Othello.Models
             { return ActiveWhitePlayer ? WhitePlayer : BlackPlayer; }
         }
 
+        [NotMapped]
+        private FieldColor activePlayerColor
+        {
+            get
+            {
+                return (ActiveWhitePlayer ? FieldColor.White : FieldColor.Black);
+            }
+        }
+
         private GameState()
         {
             Invalid = false;
@@ -123,11 +132,16 @@ namespace Othello.Models
             // move
             Point p; p.x = x; p.y = y;
             FieldColor[,] temp = Board;
-            Judge.DoMove(ref temp, (ActiveWhitePlayer ? FieldColor.White : FieldColor.Black), p);
+            Judge.DoMove(ref temp, activePlayerColor, p);
             temp[x, y] = (ActiveWhitePlayer ? FieldColor.White : FieldColor.Black);
             Board = temp;
             ActiveWhitePlayer = !ActiveWhitePlayer; // change player
             TimeStamp = DateTime.UtcNow;
+        }
+
+        public bool IsGameOver()
+        {
+            return Judge.PossibleMoves(Board, activePlayerColor).Count == 0;
         }
     }
 }

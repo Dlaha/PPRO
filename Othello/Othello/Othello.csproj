@@ -233,6 +233,7 @@
     <Content Include="Views\Debug\Players.cshtml" />
     <Content Include="Views\Home\Game.cshtml" />
     <Content Include="Views\Debug\GameStates.cshtml" />
+    <Content Include="Views\Home\GameOver.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

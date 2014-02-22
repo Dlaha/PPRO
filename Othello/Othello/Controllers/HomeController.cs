@@ -30,22 +30,32 @@ namespace Othello.Controllers
 
         #endregion
 
+        #region Game over
+
+        public ActionResult GameOver(int idGame, int idPlayer)
+        {
+            using (DataContext data = new DataContext())
+            {
+                return View(data.ConstructPlayerGame(idGame, idPlayer));
+            }
+        }
+
+        #endregion
+
         #region Game
 
         public ActionResult Game(int idGame, int idPlayer)
         {
             PlayerGame pg;
-            GameState gameState;
             using (DataContext data = new DataContext())
             {
-                gameState = data.FetchAdditional(data.GameStates.Find(idGame));
-                if (gameState == null)
-                    throw new Exception(string.Format("Game - Game with id {0} doesn't exists", idGame));
-                if (gameState.BlackPlayer.Id != idPlayer && gameState.WhitePlayer.Id != idPlayer)
-                    throw new Exception(string.Format("Game - GamePlayer with id {0} doesn't play game {1}", idPlayer, idGame));
-                pg = new PlayerGame((idPlayer == gameState.BlackPlayer.Id ? gameState.BlackPlayer : gameState.WhitePlayer), gameState);
+                pg = data.ConstructPlayerGame(idGame, idPlayer);
             }
-            return View(pg);
+            // game over check
+            if (pg.GameState.IsGameOver())
+                return RedirectToAction("GameOver", new { idGame = pg.GameState.idBlackPlayer, idPlayer = pg.Player.Id });
+            else
+                return View(pg);
         }
 
         public JsonResult checkGame(int idGame, int idPlayer)
