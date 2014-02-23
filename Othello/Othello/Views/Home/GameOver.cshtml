@@ -5,4 +5,8 @@
 }
 
 <h2>GameOver</h2>
-<p>@Html.ValueFor(model => model.Player.Name)</p>
+<p>@{ var p = Model.GameState.WinningPlayer;
+      if (p == null) { <text>Remíza</text> }
+      else{ <text>Vyhrál @Html.ValueFor(model => model.GameState.WinningPlayer.Name)</text> };
+} 
+</p>

@@ -34,6 +34,15 @@ namespace Othello.Models
     {
         public const int boardDimension = 8;
 
+        static public int FieldsCount(FieldColor[,] board, FieldColor color)
+        {
+            int result = 0;
+            for (int x = 0; x < boardDimension; x++)
+                for (int y = 0; y < boardDimension; y++)
+                    if (board[x, y] == color) result++;
+            return result;
+        }
+
         static private int ObtainStonesInDirection(ref FieldColor[,] board, FieldColor activePlayer, Point startPos, Point direction)
         {
             if (direction.x < -1 || direction.x > 1 || direction.y < -1 || direction.y > 1)

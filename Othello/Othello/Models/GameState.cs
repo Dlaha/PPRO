@@ -56,6 +56,9 @@ namespace Othello.Models
         [ForeignKey("idWhitePlayer")]
         public virtual Player WhitePlayer { get; set; }
 
+        [NotMapped]
+        public int WhiteScore { get { return Judge.FieldsCount(Board, FieldColor.White); } }
+
         #endregion
 
         #region Black Player
@@ -65,6 +68,9 @@ namespace Othello.Models
         public int idBlackPlayer { get; set; }
         [ForeignKey("idBlackPlayer")]
         public virtual Player BlackPlayer { get; set; }
+
+        [NotMapped]
+        public int BlackScore { get { return Judge.FieldsCount(Board, FieldColor.Black); } }
 
         #endregion
 
@@ -84,6 +90,17 @@ namespace Othello.Models
             get
             {
                 return (ActiveWhitePlayer ? FieldColor.White : FieldColor.Black);
+            }
+        }
+
+        [NotMapped]
+        public Player WinningPlayer
+        {
+            get
+            {
+                int b = BlackScore, w = WhiteScore;
+                if (b == w) return null;
+                return (b > w ? BlackPlayer : WhitePlayer);
             }
         }
 
@@ -143,5 +160,7 @@ namespace Othello.Models
         {
             return Judge.PossibleMoves(Board, activePlayerColor).Count == 0;
         }
+
+
     }
 }
