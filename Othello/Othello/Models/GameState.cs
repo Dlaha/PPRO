@@ -16,16 +16,6 @@ namespace Othello.Models
         [Required]
         public bool ActiveWhitePlayer { get; set; }
 
-        #region Previous gamestate
-
-        //[ForeignKey("Previous")]
-        //public int idPrevious { get; set; }
-        //[ForeignKey("idPrevious")]
-        //[ForeignKey("idPrevious")]
-        public virtual GameState Previous { get; set; }
-
-        #endregion
-
         [Required]
         public DateTime TimeStamp { get; set; }
         [Required, StringLength(Judge.boardDimension * Judge.boardDimension, MinimumLength = Judge.boardDimension * Judge.boardDimension)]
@@ -50,10 +40,9 @@ namespace Othello.Models
 
         #region White Player
 
-        [ForeignKey("WhitePlayer")]
-        [Required]
+        [Required, ForeignKey("WhitePlayer")]
         public int idWhitePlayer { get; set; }
-        [ForeignKey("idWhitePlayer")]
+        [Required,ForeignKey("idWhitePlayer")]
         public virtual Player WhitePlayer { get; set; }
 
         [NotMapped]
@@ -63,10 +52,9 @@ namespace Othello.Models
 
         #region Black Player
 
-        [ForeignKey("BlackPlayer")]
-        [Required]
+        [Required, ForeignKey("BlackPlayer")]
         public int idBlackPlayer { get; set; }
-        [ForeignKey("idBlackPlayer")]
+        [Required, ForeignKey("idBlackPlayer")]
         public virtual Player BlackPlayer { get; set; }
 
         [NotMapped]
@@ -141,11 +129,6 @@ namespace Othello.Models
 
         public void NextTurn(int x, int y)
         {
-            // create copy of actual state
-            GameState h = new GameState(WhitePlayer, BlackPlayer) { BoardRepresentation = this.BoardRepresentation };
-            // add copy to history
-            if (Previous != null) h.Previous = Previous;
-            Previous = h;
             // move
             Point p; p.x = x; p.y = y;
             FieldColor[,] temp = Board;

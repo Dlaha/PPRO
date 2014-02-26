@@ -11,16 +11,15 @@ namespace Othello.Models
     {
         public DbSet<Player> Players { get; set; }
         public DbSet<GameState> GameStates { get; set; }
+        public DbSet<GameHistory> History { get; set; }
 
         public DataContext():base()
         {
             Configuration.LazyLoadingEnabled = true;
-            
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<GameState>().HasOptional(gs => gs.Previous).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<GameState>().HasRequired(gs => gs.WhitePlayer).WithMany().WillCascadeOnDelete(false);
             modelBuilder.Entity<GameState>().HasRequired(gs => gs.BlackPlayer).WithMany().WillCascadeOnDelete(false);
             base.OnModelCreating(modelBuilder);
@@ -31,7 +30,6 @@ namespace Othello.Models
             if (gamestate == null) return null;
             gamestate.BlackPlayer = Players.Find(gamestate.idBlackPlayer);
             gamestate.WhitePlayer = Players.Find(gamestate.idWhitePlayer);
-            //gamestate.Previous = GameStates.Find(gamestate.idPrevious);
             return gamestate;
         }
 

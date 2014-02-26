@@ -10,3 +10,7 @@
       else{ <text>Vyhrál @Html.ValueFor(model => model.GameState.WinningPlayer.Name)</text> };
 } 
 </p>
+
+<div>
+    @Html.ActionLink("Play Again", "PlayAgain", new { idPlayer = Model.Player.Id });
+</div>

@@ -1,0 +1,24 @@
+﻿@model IEnumerable<Othello.Models.GameHistory>
+
+@{
+    ViewBag.Title = "GameHistory";
+}
+
+<h2>GameHistory</h2>
+
+<table>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.idGameState)</th>
+        <th>@Html.DisplayNameFor(model => model.TimeStamp)</th>
+        <th>@Html.DisplayNameFor(model => model.BoardRepresentation)</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.idGameState)</td>
+        <td>@Html.DisplayFor(modelItem => item.TimeStamp)</td>
+        <td>@Html.DisplayFor(modelItem => item.BoardRepresentation)</td>
+    </tr>
+}
+
+</table>

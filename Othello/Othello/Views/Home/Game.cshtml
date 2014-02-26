@@ -26,7 +26,7 @@
 
 <fieldset>
     <legend>Fight!</legend>
-    <p>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name) (Black) vs. @Html.DisplayFor(model => model.GameState.WhitePlayer.Name) (White)</p>
+    <p>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name) (Černý - @Html.DisplayFor(model => model.GameState.BlackScore) bodů) vs. @Html.DisplayFor(model => model.GameState.WhitePlayer.Name) (Bílý - @Html.DisplayFor(model => model.GameState.WhiteScore) bodů)</p>
     @{ 
         if (Model.Opponent.State != Othello.Models.PlayerState.Playing) { <text><p style="color: red">Čeká se na protihráče</p></text> }
         else { 
@@ -71,5 +71,4 @@
         
     </table>
 
-    <p>Tak a tady je úžasné dočasné zobrazení herního plánku.</p>
 </fieldset>

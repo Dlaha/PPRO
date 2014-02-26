@@ -35,5 +35,17 @@ namespace Othello.Controllers
             return View(gs);
         }
 
+        public ActionResult GameHistory(int? idGameState)
+        {
+            List<GameHistory> gh;
+            using (DataContext data = new DataContext())
+            {
+                if (!idGameState.HasValue) 
+                    gh = data.History.ToList();
+                else
+                    gh = data.History.Where(h => h.idGameState==idGameState.Value).ToList();
+            }
+            return View(gh);
+        }
     }
 }
