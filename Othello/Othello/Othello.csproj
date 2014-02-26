@@ -143,6 +143,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\themes\base\images\blank.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
@@ -156,6 +157,7 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\white.png" />
     <Content Include="Content\themes\base\jquery-ui.css" />
     <Content Include="Content\themes\base\jquery.ui.accordion.css" />
     <Content Include="Content\themes\base\jquery.ui.all.css" />
@@ -215,6 +217,8 @@
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Content\themes\base\images\black.png" />
+    <Content Include="Content\themes\base\images\desk.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

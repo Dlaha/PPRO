@@ -24,7 +24,10 @@
 </script>
 <h2>Game</h2>
 
-<fieldset>
+
+
+<fieldset >
+    
     <legend>Fight!</legend>
     <p>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name) (Černý - @Html.DisplayFor(model => model.GameState.BlackScore) bodů) vs. @Html.DisplayFor(model => model.GameState.WhitePlayer.Name) (Bílý - @Html.DisplayFor(model => model.GameState.WhiteScore) bodů)</p>
     @{ 
@@ -37,38 +40,39 @@
         }
 }
 
-    <table >
-
+    <table>
         @for (int x = 0; x < 8; x++)
         {
             <tr>
-            @for (int y = 0; y < 8; y++)
-{
-    <td style="border: 1px solid black; width: 20px; height:20px; text-align: center">
+                @for (int y = 0; y < 8; y++)
+                {
+                    <td style="border: 1px solid black; width: 40px; height: 40px; text-align: center;background-color: green" >
 
-        @switch (Model.GameState.Board[x, y])
-        {
-            case Othello.Models.FieldColor.Empty:
-                if (Model.Opponent.IsPlaying && Model.MyTurn && Model.GameState.ValidMove(x,y))
-                {
-                    <text>@Html.ActionLink("tah", "GameTurn", new { idG = Model.GameState.Id, idP = Model.Player.Id, x = x, y = y })</text>
+                        @switch (Model.GameState.Board[x, y])
+                        {
+                            case Othello.Models.FieldColor.Empty:
+                                if (Model.Opponent.IsPlaying && Model.MyTurn && Model.GameState.ValidMove(x, y))
+                                {
+                                    <a href="@Url.Action("GameTurn", new { idG = Model.GameState.Id, idP = Model.Player.Id, x = x, y = y })"> <img src="~/Content/themes/base/images/blank.png" width="40" height="40" alt=" tah" /></a>
+                                }
+                                else
+                                {
+                                    <text></text>
+                                }
+                                break;
+                            case Othello.Models.FieldColor.Black:
+                            <img src="~/Content/themes/base/images/black.png" width="40" height="40" />
+                                break;
+                            case Othello.Models.FieldColor.White:
+                            <img src="~/Content/themes/base/images/white.png" width="40" height="40" />
+                                break;
+                        }
+                    </td>
                 }
-                else
-                {
-                    <text></text>
-                }
-                break;
-            case Othello.Models.FieldColor.Black:
-                <text>B</text> break;
-            case Othello.Models.FieldColor.White:
-                <text>W</text>break;
+            </tr>
         }
-    </td>
-}
-             </tr>   
-         }
-       
-        
+
+
     </table>
 
 </fieldset>
