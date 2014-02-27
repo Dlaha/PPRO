@@ -46,11 +46,13 @@ namespace Othello.Controllers
         {
             using (DataContext data = new DataContext())
             {
+                // fetch old player
                 Player p = data.Players.Find(idPlayer);
-                p.State = PlayerState.Waiting;
-                p.LastUpdate = DateTime.UtcNow;
+                // create new player with same name
+                Player newP = new Player() { Name = p.Name };
+                data.Players.Add(newP);
                 data.SaveChanges();
-                return RedirectToAction("CheckForPlaymate", new { idPlayer = p.Id });
+                return RedirectToAction("CheckForPlaymate", new { idPlayer = newP.Id });
             }
         }
 
@@ -67,7 +69,7 @@ namespace Othello.Controllers
             }
             // game over check
             if (pg.GameState.IsGameOver())
-                return RedirectToAction("GameOver", new { idGame = pg.GameState.idBlackPlayer, idPlayer = pg.Player.Id });
+                return RedirectToAction("GameOver", new { idGame = pg.GameState.Id, idPlayer = pg.Player.Id });
             else
                 return View(pg);
         }

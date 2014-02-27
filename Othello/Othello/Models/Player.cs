@@ -57,6 +57,7 @@ namespace Othello.Models
         {
             WaitStartTime = DateTime.UtcNow;
             LastUpdate = WaitStartTime;
+            State = PlayerState.Waiting;
         }
 
         public override string ToString()
