@@ -101,6 +101,7 @@ namespace Othello.Controllers
                 if (gameState == null) throw new Exception(string.Format("Game with id {0} doesn't exists", idG));
                 if (gameState.ActivePlayerInstance.Id != idP) throw new Exception("GameTurn - Wrong player ID");
                 gameState.NextTurn(x, y);
+                data.PushGameStateToHistory(gameState);
                 data.SaveChanges();
             }
             return RedirectToAction("Game", new { idGame = idG, idPlayer = idP });
@@ -158,6 +159,7 @@ namespace Othello.Controllers
                         // create game
                         GameState gs = new GameState(player, playmate);
                         data.GameStates.Add(gs);
+                        data.PushGameStateToHistory(gs);
                         data.SaveChanges();
                         return RedirectToAction("Game", new { idGame = gs.Id, idPlayer = player.Id });
                     }

@@ -63,5 +63,14 @@ namespace Othello.Models
                 throw new Exception(string.Format("ConstructPlayerGame - GamePlayer with id {0} doesn't play game {1}", idPlayer, idGame));
             return new PlayerGame((idPlayer == gameState.BlackPlayer.Id ? gameState.BlackPlayer : gameState.WhitePlayer), gameState);
         }
+
+        public void PushGameStateToHistory(GameState gameState)
+        {
+            GameHistory h = new GameHistory();
+            h.GameState = gameState;
+            h.BoardRepresentation = gameState.BoardRepresentation;
+            h.TimeStamp = DateTime.UtcNow;
+            History.Add(h);
+        }
     }
 }

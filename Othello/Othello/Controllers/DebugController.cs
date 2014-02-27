@@ -40,10 +40,10 @@ namespace Othello.Controllers
             List<GameHistory> gh;
             using (DataContext data = new DataContext())
             {
-                if (!idGameState.HasValue) 
-                    gh = data.History.ToList();
+                if (!idGameState.HasValue)
+                    gh = data.History.OrderBy(h => new { h.idGameState, h.TimeStamp }).ToList();
                 else
-                    gh = data.History.Where(h => h.idGameState==idGameState.Value).ToList();
+                    gh = data.History.Where(h => h.idGameState == idGameState.Value).OrderBy(h => h.TimeStamp).ToList();
             }
             return View(gh);
         }

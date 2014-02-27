@@ -26,7 +26,7 @@ namespace Othello.Models
         #endregion
 
         [Required, StringLength(Judge.boardDimension * Judge.boardDimension, MinimumLength = Judge.boardDimension * Judge.boardDimension)]
-        public string BoardRepresentation;
+        public string BoardRepresentation { get; set; }
 
         #endregion
 
