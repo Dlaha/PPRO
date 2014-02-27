@@ -76,7 +76,8 @@ namespace Othello.Models
                 Point d; // direction
                 d.x = ((i / 3) % 3) - 1;
                 d.y = (i % 3) - 1;
-                r = r || ObtainStonesInDirection(ref board, activePlayer, pos, d)>0;
+                if (d.x == 0 && d.y == 0) continue;
+                r = ObtainStonesInDirection(ref board, activePlayer, pos, d)>0 || r;
             }
             return r;
         }

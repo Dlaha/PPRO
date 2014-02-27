@@ -4,13 +4,13 @@
     ViewBag.Title = "GameOver";
 }
 
-<h2>GameOver</h2>
+<h2>Konec hry</h2>
 <p>@{ var p = Model.GameState.WinningPlayer;
       if (p == null) { <text>Remíza</text> }
-      else{ <text>Vyhrál @Html.ValueFor(model => model.GameState.WinningPlayer.Name)</text> };
+      else{ <text>Vyhrál <b>@Html.ValueFor(model => model.GameState.WinningPlayer.Name)</b></text> };
 } 
 </p>
 
 <div>
-    @Html.ActionLink("Play Again", "PlayAgain", new { idPlayer = Model.Player.Id });
+    @Html.ActionLink("Hrát znovu", "PlayAgain", new { idPlayer = Model.Player.Id });
 </div>

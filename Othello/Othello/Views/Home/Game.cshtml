@@ -1,7 +1,7 @@
 ﻿@model Othello.Models.PlayerGame
 
 @{
-    ViewBag.Title = "Game";
+    ViewBag.Title = "Othello";
 }
 
 <script src="@Url.Content("~/Scripts/jquery-1.8.2.min.js")" type="text/javascript"></script>
@@ -22,14 +22,14 @@
         })
     })();
 </script>
-<h2>Game</h2>
+<h2>Othello</h2>
 
 
 
 <fieldset >
     
-    <legend>Fight!</legend>
-    <p>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name) (Černý - @Html.DisplayFor(model => model.GameState.BlackScore) bodů) vs. @Html.DisplayFor(model => model.GameState.WhitePlayer.Name) (Bílý - @Html.DisplayFor(model => model.GameState.WhiteScore) bodů)</p>
+    <legend>Hraj!</legend>
+    <p><b>@Html.DisplayFor(model => model.GameState.BlackPlayer.Name)</b> (Černý - @Html.DisplayFor(model => model.GameState.BlackScore) kamenů) vs. <b>@Html.DisplayFor(model => model.GameState.WhitePlayer.Name)</b> (Bílý - @Html.DisplayFor(model => model.GameState.WhiteScore) kamenů)</p>
     @{ 
         if (Model.Opponent.State != Othello.Models.PlayerState.Playing) { <text><p style="color: red">Čeká se na protihráče</p></text> }
         else { 
